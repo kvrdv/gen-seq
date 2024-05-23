@@ -52,6 +52,16 @@ function App() {
     setSequence(result);
   };
 
+  const copyToClipboard = () => {
+    const values = sequence.join('\t'); // Join values with tabs
+    const textarea = document.createElement('textarea'); // Create a textarea element
+    textarea.value = values; // Set textarea value to the sequence
+    document.body.appendChild(textarea); // Append textarea to the document body
+    textarea.select(); // Select the textarea text
+    document.execCommand('copy'); // Copy the selected text
+    document.body.removeChild(textarea); // Remove the textarea from the document body
+  };
+
 	return (
 		<div>
 			<form onSubmit={handleSubmit}>
@@ -107,12 +117,13 @@ function App() {
 				</div>
 				<button type="submit">Generate Sequence</button>
 			</form>
-			{sequence.length > 0 && (
-				<div>
-					<h3>Generated Sequence:</h3>
-					<pre>{sequence.join(' ')}</pre>
-				</div>
-			)}
+      {sequence.length > 0 && (
+        <div>
+          <h3>Generated Sequence:</h3>
+          <pre>{sequence.join(', ')}</pre>
+          <button onClick={copyToClipboard}>Copy to Clipboard</button>
+        </div>
+      )}
 		</div>
 	);
 }
